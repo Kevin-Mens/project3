@@ -20,14 +20,6 @@
         $stmt->execute([$collectionId, $pid]);
         header('Location: party.php');
     }
-    // $catchids = array();
-    // for($i = 0; $i < count($tempids); $i++)
-    // {
-    //     if($tempids[$i] != null)
-    //     {
-    //         array_push($catchids, $tempids[$i]);
-    //     }
-    // }
 
     // composes array of the party pokemon
     $partyData = array();
