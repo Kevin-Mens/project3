@@ -1,89 +1,95 @@
 <?php
-session_start();
-include 'pdo.php';
+    session_start();
+    require_once "pdo.php";
 
-// Assume the player is logged in and their ID is stored in the session
-$pid = $_SESSION['player_id'];
+    // getting player object
+    $player = json_decode($_SESSION['player'], true);
+    $pid = $player['pid'];
+    $sql = "SELECT * FROM playerparty WHERE pid=$pid";
+    $party = $pdo->query($sql);
+    $row = $party->fetch();
+    $catchids = array($row['catchId1'], $row['catchId2'], $row['catchId3'], $row['catchId4'], $row['catchId5'], $row['catchId6']);
 
-// Fetch party Pokémon
-$stmt = $pdo->prepare("SELECT * FROM PlayerParty WHERE pid = ?");
-$stmt->execute([$pid]);
-$party = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Handle form submission for swapping Pokémon
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['partyIndex']) && isset($_POST['collectionId'])) {
+        $partyIndex = $_POST['partyIndex'];
+        $collectionId = $_POST['collectionId'];
 
-// Fetch collection Pokémon
-$stmt = $pdo->prepare("SELECT * FROM PlayerCollection JOIN Pokemon ON PlayerCollection.dexid = Pokemon.dexid WHERE pid = ?");
-$stmt->execute([$pid]);
-$collection = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // Find the first empty slot in the party to add the new Pokémon
+        $stmt = $pdo->prepare("UPDATE playerparty SET catchId{$partyIndex} = ? WHERE pid = ?");
+        $stmt->execute([$collectionId, $pid]);
+        header('Location: party.php');
+    }
+    // $catchids = array();
+    // for($i = 0; $i < count($tempids); $i++)
+    // {
+    //     if($tempids[$i] != null)
+    //     {
+    //         array_push($catchids, $tempids[$i]);
+    //     }
+    // }
+
+    // composes array of the party pokemon
+    $partyData = array();
+    for($i = 0; $i < count($catchids); $i++)
+    {
+        if ($catchids[$i] != 0){
+            $sql = "SELECT * FROM playercollection WHERE catchId=$catchids[$i]";
+            $result = $pdo->query($sql);
+            $row = $result->fetch();
+            $num = $row['dexid'];
+
+            $sql = "SELECT * FROM pokemon WHERE dexid=$num";
+            $result = $pdo->query($sql);
+            $row = $result->fetch();
+            $pokeData = array('dexid' => $row['dexid'], 'name' => $row['name']);
+            array_push($partyData, $pokeData);
+        }else array_push($partyData, NULL);
+    }
+
+    // composes array of full collection
+    $sql = $pdo->prepare("
+        SELECT PlayerCollection.catchId, Pokemon.name 
+        FROM PlayerCollection JOIN Pokemon ON 
+        PlayerCollection.dexid = Pokemon.dexid WHERE PlayerCollection.pid = ?
+        AND PlayerCollection.catchId NOT IN (?, ?, ?, ?, ?, ?)");
+    $sql->execute([$pid, $catchids[0], $catchids[1], $catchids[2], 
+                         $catchids[3], $catchids[4], $catchids[5]]);
+    $collection = $sql->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Pokémon Party Manager</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: space-between;
-            padding: 20px;
-        }
-        .container {
-            width: 45%;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            padding: 10px;
-            border: 1px solid #ccc;
-            margin-bottom: 5px;
-            cursor: pointer;
-        }
-    </style>
+    <title>Party Selection</title>
+    <link rel="stylesheet" href="party.css">
 </head>
 <body>
-    <div class="container" id="party-container">
-        <h2>Party</h2>
-        <ul id="party">
-            <?php for ($i = 1; $i <= 6; $i++): ?>
-                <?php if (!empty($party["catchId$i"])): ?>
-                    <?php
-                    $stmt = $pdo->prepare("SELECT * FROM Pokemon WHERE dexid = ?");
-                    $stmt->execute([$party["catchId$i"]]);
-                    $pokemon = $stmt->fetch(PDO::FETCH_ASSOC);
-                    ?>
-                    <li onclick="selectPokemon('party', <?php echo $i; ?>)"><?php echo $pokemon['name']; ?></li>
-                <?php else: ?>
-                    <li onclick="selectPokemon('party', <?php echo $i; ?>)">Empty Slot</li>
-                <?php endif; ?>
-            <?php endfor; ?>
-        </ul>
-    </div>
-    <div class="container" id="collection-container">
-        <h2>Collection</h2>
-        <ul id="collection">
-            <?php foreach ($collection as $pokemon): ?>
-                <li onclick="selectPokemon('collection', <?php echo $pokemon['catchId']; ?>)"><?php echo $pokemon['name']; ?></li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
+    <a href="menu.php" class="back-button">Back to Menu</a>
+    <form method="post" action="">
+        <div class="flex-container">
+            <div class="container" id="party-container">
+                <h2>Party</h2>
+                <select name="partyIndex" required>
+                    <option value="">Select Party Pokémon</option>
+                    <?php foreach ($partyData as $index => $pokemon): ?>
+                        <option value="<?php echo $index + 1; ?>"><?php echo $pokemon['name']; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
 
-    <script>
-        let selectedPartyIndex = null;
-        let selectedCollectionId = null;
-
-        function selectPokemon(type, index) {
-            if (type === 'party') {
-                selectedPartyIndex = index;
-            } else if (type === 'collection') {
-                selectedCollectionId = index;
-            }
-
-            if (selectedPartyIndex !== null && selectedCollectionId !== null) {
-                window.location.href = `swap.php?partyIndex=${selectedPartyIndex}&collectionId=${selectedCollectionId}`;
-            }
-        }
-    </script>
+            <div class="container" id="collection-container">
+                <h2>Collection</h2>
+                <select name="collectionId" required>
+                    <option value="">Select Collection Pokémon</option>
+                    <?php foreach ($collection as $pokemon): ?>
+                        <option value="<?php echo $pokemon['catchId']; ?>"><?php echo $pokemon['name']; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+        <button type="submit">Swap</button>
+    </form>
 </body>
 </html>
