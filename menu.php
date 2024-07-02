@@ -218,7 +218,7 @@
 
 
                 //console.log(.);
-                //window.location.href='battle.php'
+                window.location.href='battle.php'
             }
 
             resize();
