@@ -48,10 +48,6 @@
 
             //Gets Player Object From backend
             var player = <?php echo $_SESSION['player'] ?>;
-        
-            console.log(player.name);
-            console.log(player.pid);
-            console.log(player.money);
 
             var canvas = document.getElementById('gachaCanvas');
             canvas.height = window.innerHeight * .9;

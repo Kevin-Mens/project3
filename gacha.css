@@ -14,6 +14,16 @@ body
     background-color: rgb(39, 30, 39);
 }
 
+#moneyAmount
+{
+	font-size:36px;
+	margin:0px;
+	padding:0px;
+	position:absolute;
+	top:13.5%;
+	left:80%;
+}
+
 #startButton {
 	background:linear-gradient(to bottom, #929e9b 5%, #6c7c7c 100%);
 	background-color:#929e9b;
@@ -108,10 +118,57 @@ body
 	top:1px;
 }
 
+#backButton {
+	background:linear-gradient(to bottom, #000000 5%, #000000 100%);
+	background-color:#000000;
+	border-radius:25px;
+	border:1px solid #000000;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Verdana;
+	font-size:17px;
+	padding:10px 15px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #000000;
+	position: relative;
+	top:13%;
+	left:7%;
+}
+#backButton:hover {
+	background:linear-gradient(to bottom, #000000 5%, #000000 100%);
+	background-color:#000000;
+}
+#backButton:active {
+	position:relative;
+	top:13.1%;
+	left:7%;
+}
+
+
 #buttons
 {
     position: absolute;
     top:75%;
     left: 46%;
     margin:auto;
+}
+
+#pokemon
+{
+	position:relative;
+	top:50%;
+	left:50%;
+	margin:auto;
+}
+
+#pokeAlert
+{
+	position:absolute;
+	top:60%;
+	left:43%;
+	margin:auto;
+	padding:0px;
+	background-color:#FFFDD0;
+	opacity:.9;
 }
