@@ -1,5 +1,9 @@
-1. Make new proj3 database using phpMyAdmin
-2. Use provided .sql file to create tables
-3. Click on the pokemon table on the righthand side, then navigate to the import tab at the top
-4.Import the pokemon_data.csv file (Note: An error regarding duplicates will occur, disregard this
-as the duplicates will be omitted. As a result all 151 pokemon are inserted as intended.) 
+1. Make new database called "proj3" using phpMyAdmin
+2. Use the content in the provided .sql file to create tables using the SQL tab in phpMyAdmin
+3. Click on the pokemon table on the lefthand sidebar, then navigate to the import tab at the top
+4.Import the pokemon_data.csv file, and make sure in the options to check [NEED OPTION].
+This simply allows the import to take place even though mega evolutions in the 
+provided pokemon data cause duplicate pokedex ids. The 151 pokemon in the game will still be inserted as 
+intended, and the duplicates will be omitted.
+5. To confirm the previous step was successful click on the pokemon table on the lefthand sidebar and
+check to see if the table has been populated. There should be "dexid" up to 151.
