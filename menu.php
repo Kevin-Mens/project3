@@ -75,7 +75,7 @@
                                 <td>$2000</td>
                                 <td>2</td>
                                 <td>
-                                <button class="btn" onclick="trainerPick = 1;" >SELECT</button>
+                                <button id="1" class="btn" onclick="select(1);" >SELECT</button>
                                 </td>
                             </tr>
                             <tr>
@@ -84,7 +84,7 @@
                                 <td>$4000</td>
                                 <td>4</td>
                                 <td>
-                                <button class="btn" onclick="trainerPick = 2;">SELECT</button>
+                                <button id="2" class="btn" onclick="select(2);">SELECT</button>
                                 </td>
                             </tr>
                             <tr>
@@ -93,7 +93,7 @@
                                 <td>$10000</td>
                                 <td>5</td>
                                 <td>
-                                <button class="btn" onclick="trainerPick = 3;">SELECT</button>
+                                <button id="3" class="btn" onclick="select(3);">SELECT</button>
                                 </td>
                             </tr>
                             <tr>
@@ -102,7 +102,7 @@
                                 <td>$20000</td>
                                 <td>6</td>
                                 <td>
-                                <button class="btn" onclick="trainerPick = 4;">SELECT</button>
+                                <button id="4" class="btn" onclick="select(4);">SELECT</button>
                                 </td>
                             </tr>
                             </tbody>
@@ -135,6 +135,12 @@
             const winScale = .9;
             const buttons = $('button');
             const info = $('.info');
+            const tips = [
+                "Pay attention to type matchups, sum the effectiveness defences of types.", 
+                "You have a normal attack with no type and a special with your 'mon's type.", 
+                "Having trouble against a trainer, try rolling the gacha again!",
+                "The first pokemon in you party is the first to get sent out."
+            ];
 
             let hasAMon = <?php echo json_encode($collCount);?>; //# of mons in collection
             let party = <?php echo json_encode($party1);?>; //1 = true player has null in party space 1
@@ -183,6 +189,7 @@
                 $('#header').hide();
                 $('#rightCornerButton').show();
                 $('#trainerSelect').show();
+                $('#1').prop('disabled', true);
             }
 
             function back(){
@@ -197,13 +204,32 @@
                     page = 1;
                 }
             }
-
+            // Conditions. No pokemon in party. Rank based message (champion). Otherwise Random Trainer Tips
             function message() {
                 if (hasAMon == 0){
                     $('#message').text("Click GACHA to get your first mon!");
+                } else if (!(party.catchId1||party.catchId2||party.catchId3||party.catchId4||party.catchId5||party.catchId6)) {
+                    $('#message').text("Your Party is empty! Click TEAM to manage your party");
+                } else if (player.highestTrainer == 0) {
+                    $('#message').text("Looks like you're all set, " + player.name + ". Go get 'em tiger!");
+                } else if (player.highestTrainer == 4) {
+                    $('#message').text("CONGRATS CHAMPION!!!");
+                } else {
+                    Math.floor(Math.random() * tips.length);
+                    $('#message').text(tips[Math.floor(Math.random() * tips.length)]);
                 }
-            } 
 
+            } 
+            
+            function select(i) {
+                $('.btn').prop('disabled', false);
+                $('.btn').css("background-color: white");
+                $('#'+i).prop('disabled', true);
+                $('#'+i).css("background-color: grey");
+                
+
+                trainerPick = i;
+            }
 
             function battle() {
                 var input = {
