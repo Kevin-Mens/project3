@@ -119,7 +119,7 @@
 
             //Starts playing audio
             $(document).ready(function() {
-                $("#music").prop("volume", 0.03);
+                $("#music").prop("volume", 0.1);
                 $("#music").get(0).play();
             });
         </script>
