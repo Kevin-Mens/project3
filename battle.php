@@ -603,6 +603,8 @@
             function defeatScreen()
             {
                 document.getElementById('userInterface').innerHTML = "";
+                document.getElementById('startBattle').style.backgroundColor = "white";
+                document.getElementById('startBattle').style.padding = "20px";
                 document.getElementById('startBattle').innerHTML = "<h1>Defeat</h1><button class=returnButton onclick=defeatReturn()>Return to Main Menu</button>";
             }
 
