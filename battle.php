@@ -240,7 +240,7 @@
                     {
                         playerTypeWeakness = playerTypeWeakness * 2;
                     }
-                    if(defender.type1 == "Bug" || defender.type2 == "Bug")defender
+                    if(defender.type1 == "Bug" || defender.type2 == "Bug")
                     {
                         playerTypeWeakness = playerTypeWeakness * 2;
                     }
