@@ -79,12 +79,8 @@
                 <h2>Collection</h2>
                 <select name="collectionId" required>
                     <option value="">Select Collection Pokémon</option>
-                    <?php foreach ($partyData as $index => $pokemon): 
-                        if ($pokemon):?>
-                            <option value="<?php echo $index + 1; ?>"><?php echo $pokemon['name']; ?></option>
-                        <?php else: ?>
-                            <option value="<?php echo $index + 1; ?>">Empty Slot</option>
-                        <?php endif; ?>
+                    <?php foreach ($collection as $pokemon): ?>
+                        <option value="<?php echo $pokemon['catchId']; ?>"><?php echo $pokemon['name']; ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
