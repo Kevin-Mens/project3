@@ -8,9 +8,9 @@
     $stmt->execute([':pid' => $pid]);
     $collCount = $stmt->fetchColumn();
 
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM PlayerParty WHERE pid = :pid AND catchId1 = NULL");
+    $stmt = $pdo->prepare("SELECT catchId1 FROM PlayerParty WHERE pid = :pid");
     $stmt->execute([':pid' => $pid]);
-    $partyCount = $stmt->fetchColumn();
+    $party1 = $stmt->fetchColumn();
 ?>
 
 <html>
@@ -137,7 +137,8 @@
             const info = $('.info');
 
             let hasAMon = <?php echo json_encode($collCount);?>; //# of mons in collection
-            let noMonInParty = <?php echo json_encode($partyCount);?>; //1 = true player has null in party space 1
+            let monInParty1 = <?php echo json_encode($party1);?>; //1 = true player has null in party space 1
+            console.log(monInParty1);
             let money = player.money;
             let name = player.name;
             let page = 1;
@@ -235,7 +236,7 @@
             $('#money').text(money); 
             $('#name').text(name.toUpperCase()); 
             
-            if(hasAMon != 0 && !noMonInParty){
+            if(hasAMon != 0 && monInParty1){
                 $('#battleMainButton').prop('disabled', false);
             }
 
