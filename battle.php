@@ -564,12 +564,12 @@
             function victoryReturn()
             {
                 $.post("battledb.php", {trainerDefeated:trainerChallenged, id:player.pid});
-                window.location.replace("menu.php");
+                window.location.href = "menu.php";
             }
 
             function defeatReturn()
             {
-                window.location.replace("menu.php");
+                window.location.href = "menu.php";
             }
             //Will display victory screen with prompt to return to main menu
             function victoryScreen()

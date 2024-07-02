@@ -364,7 +364,7 @@
             function mainMenu()
             {
                 $.post("gachadb.php", {newMoney:player.money, id:player.pid});
-                window.location.replace("menu.php");
+                window.location.href = "menu.php";
             }
 
             //Resizes game if window size changes
