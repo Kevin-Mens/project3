@@ -6,7 +6,11 @@
     $pid = $player['pid'];
     $stmt = $pdo->prepare("SELECT COUNT(*) FROM PlayerCollection WHERE pid = :pid");
     $stmt->execute([':pid' => $pid]);
-    $count = $stmt->fetchColumn();
+    $collCount = $stmt->fetchColumn();
+
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM PlayerParty WHERE pid = :pid AND catchId1 = NULL");
+    $stmt->execute([':pid' => $pid]);
+    $partyCount = $stmt->fetchColumn();
 ?>
 
 <html>
@@ -37,7 +41,7 @@
 
             <div id="mainSelect"> 
                 <button class="battleButton" id="battleMainButton" onclick="battlePage()" disabled>BATTLE</button>
-                <button class="mainButton" id="teamButton" onclick="window.location.href=''" disabled>TEAM</button>
+                <button class="mainButton" id="teamButton" onclick="window.location.href='party.php'" disabled>TEAM</button>
                 <button class="mainButton" id="gachaButton" onclick="window.location.href='gacha.php'">GACHA</button>
             </div>
 
@@ -132,7 +136,8 @@
             const buttons = $('button');
             const info = $('.info');
 
-            let hasAMon = <?php echo json_encode($count);?>;
+            let hasAMon = <?php echo json_encode($collCount);?>; //# of mons in collection
+            let noMonInParty = <?php echo json_encode($partyCount);?>; //1 = true player has null in party space 1
             let money = player.money;
             let name = player.name;
             let page = 1;
@@ -198,6 +203,7 @@
                 }
             } 
 
+
             function battle() {
                 var input = {
                     trainer: trainerPick
@@ -228,7 +234,7 @@
             $('#hasAMon').text(hasAMon); //displays # of mons in collection
             $('#money').text(money); 
             $('#name').text(name.toUpperCase()); 
-            if(hasAMon != 0){
+            if(hasAMon != 0 || noMonInParty){
                 $('#battleMainButton').prop('disabled', false);
                 $('#teamButton').prop('disabled', false);
             }
