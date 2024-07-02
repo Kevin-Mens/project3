@@ -87,5 +87,12 @@
         </div>
         <button type="submit">Swap</button>
     </form>
+
+    <script>
+        var music = new Audio();
+        music.src = "assets/audio/title.mp3";
+        music.volume = .07;
+        music.play();
+    </script>
 </body>
 </html>
