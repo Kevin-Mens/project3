@@ -1,0 +1,117 @@
+#gachaCanvas
+{
+    border:1px solid #000000; 
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin:auto;
+    background-color: white;
+}
+body
+{
+    background-color: rgb(39, 30, 39);
+}
+
+#startButton {
+	background:linear-gradient(to bottom, #929e9b 5%, #6c7c7c 100%);
+	background-color:#929e9b;
+	border:1px solid #566963;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Courier New;
+	font-size:17px;
+	padding:16px 31px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2b665e;
+}
+#startButton:hover {
+	background:linear-gradient(to bottom, #6c7c7c 5%, #929e9b 100%);
+	background-color:#6c7c7c;
+}
+#startButton:active {
+	position:relative;
+	top:1px;
+}
+
+#buttonLow {
+	background:linear-gradient(to bottom, #1fdb51 5%, #30750b 100%);
+	background-color:#1fdb51;
+	border:1px solid #18ab29;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Courier New;
+	font-size:17px;
+	padding:16px 31px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2f6627;
+    position: relative;
+    left:-50%;
+}
+#buttonLow:hover {
+	background:linear-gradient(to bottom, #30750b 5%, #1fdb51 100%);
+	background-color:#30750b;
+}
+#buttonLow:active {
+	position:relative;
+	top:1px;
+}
+
+#buttonMid {
+	background:linear-gradient(to bottom, #1e99eb 5%, #315191 100%);
+	background-color:#1e99eb;
+	border:1px solid #6b9cbd;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Courier New;
+	font-size:17px;
+	padding:16px 31px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #4a72c2;
+    position: relative;
+    left:-40%;
+}
+#buttonMid:hover {
+	background:linear-gradient(to bottom, #315191 5%, #1e99eb 100%);
+	background-color:#315191;
+}
+#buttonMid:active {
+	position:relative;
+	top:1px;
+}
+
+#buttonHigh {
+	background:linear-gradient(to bottom, #ffcc00 5%, #a18b27 100%);
+	background-color:#ffcc00;
+	border:1px solid #d7e892;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Courier New;
+	font-size:17px;
+	padding:16px 31px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #868771;
+    position: relative;
+    left:-30%;
+}
+#buttonHigh:hover {
+	background:linear-gradient(to bottom, #a18b27 5%, #ffcc00 100%);
+	background-color:#a18b27;
+}
+#buttonHigh:active {
+	position:relative;
+	top:1px;
+}
+
+#buttons
+{
+    position: absolute;
+    top:75%;
+    left: 46%;
+    margin:auto;
+}

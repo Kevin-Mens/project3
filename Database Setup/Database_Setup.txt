@@ -1,0 +1,5 @@
+1. Make new proj3 database using phpMyAdmin
+2. Use provided .sql file to create tables
+3. Click on the pokemon table on the righthand side, then navigate to the import tab at the top
+4.Import the pokemon_data.csv file (Note: An error regarding duplicates will occur, disregard this
+as the duplicates will be omitted. As a result all 151 pokemon are inserted as intended.) 

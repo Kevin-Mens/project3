@@ -1,0 +1,163 @@
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Title Screen</title>
+        <link rel="stylesheet" href="title.css">
+    </head>
+    <body>
+        <audio id="music" loop muted>
+            <source src="audio/title.mp3" type="audio/mpeg">
+        </audio>
+        
+        <div class="titleScreen">
+            <canvas id="titleCanvas"></canvas>
+            
+            <div id="namePrompt" style="display: none;">
+                <form action="login.php" method="post">
+                    <label for="trainerName">Enter Trainer Name:</label>
+                    <input type="text" id="trainerName" name="trainerName">
+                    <button id="submitName" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        
+        <script>
+            /*
+            Deals with audio on the page
+            */
+
+            //Starts playing audio
+            let playing = false;
+            sound = document.getElementById("music");
+            if(playing == false)
+            {
+                document.onmousedown = function(){
+                    sound.volume = .05;
+                    sound.play();
+                    sound.muted = false;
+                    playing = true;
+                }
+            }
+        </script>
+        
+        <script>
+            //https://www.textstudio.com/logo/pokemon-3d-text-318 -- POKE TEXT GEN
+
+            //window.location.replace("home.php");
+            $(document).ready(function() {
+
+                const imgPositions = [1/200, 1/2, 5/6];
+                const imgSizes = [.8, .5, .3];
+                const coinSize = .2;
+                const aspectRatio = 4/3;
+                const winScale = .9;
+                const canvas = $('#titleCanvas');
+                const context = canvas[0].getContext('2d');
+                const box = $('#titleScreen');
+                const namePrompt = $('#namePrompt');
+                const imageSrcs = ['assets/images/titleLogo.png', 'assets/images/titleLogo2.png','assets/images/titleClick.png'];
+                const coinSrc = 'assets/images/coin.png';
+                const coinFrmTotal = 6;
+                let coin;
+                let coinFrame = 0;
+                let coinFit;
+                let images = [];
+                let page = 1;
+
+                /*
+                ChatGPT suggested using the Promise function to handle the states of multiple 
+                loaded images. This function makes promise objects for a load pending image.
+                the following function is an async function that uses the await keyword to wait 
+                on image promises.
+                */
+
+                function resize(){
+                    let newWidth, newHeight;
+
+                    if ($(window).width() / $(window).height() > aspectRatio) {
+                        newHeight = winScale * $(window).height();
+                        newWidth = winScale * $(window).height() * aspectRatio;
+                    } else {
+                        newWidth = winScale * $(window).width();
+                        newHeight = winScale * $(window).width() / aspectRatio;
+                    }
+
+                    canvas.attr('width', newWidth);
+                    canvas.attr('height', newHeight);
+                    canvas.css({ width: newWidth, height: newHeight });
+                    box.css({ width: newWidth, height: newHeight });
+
+                    if (images && coin) {
+                        drawImages();
+                    }
+                }
+
+                function drawImages(){
+                    context.clearRect(0,0,canvas[0].width,canvas[0].height);
+
+                    images.forEach((img, i) => {
+                        let imgFit = img.height/img.width;
+                        let imgW = canvas[0].width*imgSizes[i];
+                        let imgH = imgW*imgFit;
+                        
+                        context.drawImage(img,(canvas[0].width-imgW)/2,(canvas[0].height)*imgPositions[i], imgW, imgH);
+                    });
+                    setInterval(function() {
+                        drawCoin(0,0);
+                        drawCoin(canvas[0].width-canvas[0].width*coinSize,0);
+                    }, 100);
+                }
+
+                function drawCoin(x,y) {
+                    coinFit = coin.height/(coin.width/6);
+                    context.clearRect(x, y, canvas[0].width*coinSize, canvas[0].width*coinSize*coinFit/2.7);
+                    context.drawImage(coin, coinFrame*coin.width/6, 0, coin.width/6, coin.height, x, y, canvas[0].width*coinSize, canvas[0].width*coinSize*coinFit);
+                    coinFrame = (coinFrame + 1) % coinFrmTotal;
+                }
+
+                function loadImage(src) { 
+                    return new Promise((resolve, reject) => {
+                        const img = new Image();
+                        img.src = src;
+                        img.onload = () => resolve(img);
+                        img.onerror = reject;
+                    });
+                }
+
+                async function init() {    
+                    try {   //Map function applies load image to each source in image sources. returns an array of promises
+                            //Promise.all makes all the promises into one promise. then await waits for the promise which 
+                            //will return image array or error.
+                        images = await Promise.all(imageSrcs.map(src => loadImage(src)));
+                        coin = await loadImage(coinSrc);
+                        resize();
+
+                        canvas.on('click', function() {
+                            if(page == 1){ //page controll may be expandable, Im not sure.
+                                page++;
+                                $(canvas).fadeOut(1000, function() {
+                                    context.clearRect(0, 0, canvas[0].width, canvas[0].height);
+                                    start();
+                                });
+                            }
+                        });
+                
+                    } catch (error) {
+                        console.error(error);
+                    }
+                }
+
+                function start() {
+                    $(canvas).fadeIn(1000);
+                    namePrompt.fadeIn(1000);
+                }
+
+                init();
+            });
+        </script>
+    </body>
+</html>
