@@ -8,9 +8,9 @@
     $stmt->execute([':pid' => $pid]);
     $collCount = $stmt->fetchColumn();
 
-    $stmt = $pdo->prepare("SELECT catchId1 FROM PlayerParty WHERE pid = :pid");
+    $stmt = $pdo->prepare("SELECT catchId1, catchId2, catchId3, catchId4, catchId5, catchId6 FROM PlayerParty WHERE pid = :pid");
     $stmt->execute([':pid' => $pid]);
-    $party1 = $stmt->fetchColumn();
+    $party1 = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
 <html>
@@ -137,8 +137,8 @@
             const info = $('.info');
 
             let hasAMon = <?php echo json_encode($collCount);?>; //# of mons in collection
-            let monInParty1 = <?php echo json_encode($party1);?>; //1 = true player has null in party space 1
-            console.log(monInParty1);
+            let party = <?php echo json_encode($party1);?>; //1 = true player has null in party space 1
+            console.log(party);
             let money = player.money;
             let name = player.name;
             let page = 1;
@@ -236,7 +236,7 @@
             $('#money').text(money); 
             $('#name').text(name.toUpperCase()); 
             
-            if(hasAMon != 0 && monInParty1){
+            if(hasAMon != 0 && (party.catchId1||party.catchId2||party.catchId3||party.catchId4||party.catchId5||party.catchId6)){
                 $('#battleMainButton').prop('disabled', false);
             }
 
