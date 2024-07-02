@@ -41,7 +41,7 @@
 
             <div id="mainSelect"> 
                 <button class="battleButton" id="battleMainButton" onclick="battlePage()" disabled>BATTLE</button>
-                <button class="mainButton" id="teamButton" onclick="window.location.href='party.php'" disabled>TEAM</button>
+                <button class="mainButton" id="teamButton" onclick="window.location.href='party.php'">TEAM</button>
                 <button class="mainButton" id="gachaButton" onclick="window.location.href='gacha.php'">GACHA</button>
             </div>
 
@@ -234,9 +234,9 @@
             $('#hasAMon').text(hasAMon); //displays # of mons in collection
             $('#money').text(money); 
             $('#name').text(name.toUpperCase()); 
-            if(hasAMon != 0 || noMonInParty){
+            
+            if(hasAMon != 0 || !noMonInParty){
                 $('#battleMainButton').prop('disabled', false);
-                $('#teamButton').prop('disabled', false);
             }
 
         </script>
