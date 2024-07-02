@@ -235,7 +235,7 @@
             $('#money').text(money); 
             $('#name').text(name.toUpperCase()); 
             
-            if(hasAMon != 0 || !noMonInParty){
+            if(hasAMon != 0 && !noMonInParty){
                 $('#battleMainButton').prop('disabled', false);
             }
 
