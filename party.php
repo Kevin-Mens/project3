@@ -65,8 +65,12 @@
                 <h2>Party</h2>
                 <select name="partyIndex" required>
                     <option value="">Select Party Pokémon</option>
-                    <?php foreach ($partyData as $index => $pokemon): ?>
-                        <option value="<?php echo $index + 1; ?>"><?php echo $pokemon['name']; ?></option>
+                    <?php foreach ($partyData as $index => $pokemon): 
+                        if ($pokemon):?>
+                            <option value="<?php echo $index + 1; ?>"><?php echo $pokemon['name']; ?></option>
+                        <?php else: ?>
+                            <option value="<?php echo $index + 1; ?>">Empty Slot</option>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 </select>
             </div>
