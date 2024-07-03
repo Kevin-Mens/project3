@@ -8,4 +8,4 @@ This is the README file for Pokemon Gacha created by Jacksin Schneider, Ian Jone
 
 - Once the database is setup, go to localhost/project3/proj3.html to start the game.
 
-- Click start game, enter the trainer name of your choice, and follow the game instructions.
+- Click to start the game, enter the trainer name of your choice, and follow the game instructions.
