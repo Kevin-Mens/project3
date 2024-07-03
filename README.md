@@ -1,4 +1,4 @@
-This is the README file for Pokemon Gacha created by Jacksin Schneider, Ian Jones, and Kevin Mensah
+This is the README file for Pokemon Gacha created by Jackson Schneider, Ian Jones, and Kevin Mensah
 
 - Some tools you will need to have installed: PHP, XAMPP, JavaScript, An internet Browser.
 
