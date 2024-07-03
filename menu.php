@@ -136,10 +136,11 @@
             const buttons = $('button');
             const info = $('.info');
             const tips = [
-                "Pay attention to type matchups, sum the effectiveness defences of types.", 
+                "Pay attention to type matchups, sum the effectiveness and defences of types.", 
                 "You have a normal attack with no type and a special with your 'mon's type.", 
                 "Having trouble against a trainer, try rolling the gacha again!",
-                "The first pokemon in you party is the first to get sent out."
+                "The first pokemon in you party is the first to get sent out.",
+                ""
             ];
 
             let hasAMon = <?php echo json_encode($collCount);?>; //# of mons in collection
