@@ -62,7 +62,8 @@
     <form method="post" action="">
         <div class="flex-container">
             <div class="container" id="party-container">
-                <h2>Party</h2>
+                <h1>Party</h1>
+                <h3>Use this dropdown menu to select the space you want to add a Pokémon in your party.</h3>
                 <select name="partyIndex" required>
                     <option value="">Select Party Pokémon</option>
                     <?php foreach ($partyData as $index => $pokemon): 
@@ -76,7 +77,8 @@
             </div>
 
             <div class="container" id="collection-container">
-                <h2>Collection</h2>
+                <h1>Collection</h1>
+                <h3>Use this dropdown menu to select the Pokémon to add to your party. Click swap to confirm.</h3>
                 <select name="collectionId" required>
                     <option value="">Select Collection Pokémon</option>
                     <?php foreach ($collection as $pokemon): ?>
